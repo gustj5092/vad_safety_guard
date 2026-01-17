@@ -17,7 +17,7 @@
 Safety Guard는 VAD 모델이 생성한 $N$개의 후보 경로 $\{T_0, T_1, ..., T_N\}$를 입력받아, 다음의 물리 모델을 기반으로 최적의 경로 $T^*$를 선택합니다.
 
 ### 1. 횡방향 안전성 (Lateral Safety)
-차량의 횡방향 불안정(Oscillation) 및 전복을 방지하기 위해 경로의 곡률(Curvature)을 기반으로 **횡방향 가속도($a_{lat}$)**를 검증합니다.
+차량의 횡방향 불안정(Oscillation) 및 전복을 방지하기 위해 경로의 곡률(Curvature)을 기반으로 횡방향 가속도($a_{lat}$)를 검증합니다.
 경로상의 연속된 세 점 ($P_1, P_2, P_3$)에 대해 **멩거 곡률(Menger Curvature)** 공식을 사용하여 곡률 $\kappa$를 계산합니다.
 
 $$
@@ -37,7 +37,7 @@ $$
 d_{req} = \underbrace{v \cdot \tau}_{\text{Reaction Distance}} + \underbrace{\frac{v^2}{2 \cdot |a_{long}^{max}|}}_{\text{Braking Distance}}
 $$
 
-생성된 정지 경로의 길이 $L_{path}$가 필요 제동 거리보다 짧을 경우, 충돌 위험이 있는 것으로 간주하여 **주행 불가(Infeasible)**로 판정합니다.
+생성된 정지 경로의 길이 $L_{path}$가 필요 제동 거리보다 짧을 경우, 충돌 위험이 있는 것으로 간주하여 주행 불가(Infeasible)로 판정합니다.
 
 $$
 \text{Condition: } L_{path} \ge d_{req}
