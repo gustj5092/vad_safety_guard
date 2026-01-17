@@ -1,8 +1,8 @@
 # VAD Safety Guard: 종단간 자율주행을 위한 운동학적 안전 계층 (Kinematic Safety Layer)
 
-## 📌 개요 (Overview)
+##  개요 (Overview)
 **VAD Safety Guard**는 VAD (Vectorized Autonomous Driving) 모델의 출력을 검증하기 위한 안전 모듈입니다.
-기존의 종단간(End-to-End) 자율주행 모델은 시스템 지연(System Delay)이나 차량의 동역학적 한계를 고려하지 않고, 물리적으로 주행 불가능한(Infeasible) 경로를 생성하는 경우가 있습니다. 본 노드는 **안전 필터(Safety Filter)**로서 작동하여, 운동학적 제약 조건을 기반으로 후보 경로들을 검증하고, 위험 상황 시 능동적으로 개입하여 사고를 방지합니다.
+기존의 종단간(End-to-End) 자율주행 모델은 시스템 지연(System Delay)이나 차량의 동역학적 한계를 고려하지 않고, 물리적으로 주행 불가능한(Infeasible) 경로를 생성하는 경우가 있습니다. 본 노드는 안전 필터(Safety Filter)로서 작동하여, 운동학적 제약 조건을 기반으로 후보 경로들을 검증하고, 위험 상황 시 능동적으로 개입하여 사고를 방지합니다.
 
 ### 주요 기능 (Key Features)
 * **시스템 지연 보상 (Latency Compensation):** 안전성 검사 시 시스템 지연 시간($\tau$)을 수식에 반영.
@@ -12,7 +12,7 @@
 
 ---
 
-## 🛠️ 핵심 알고리즘 (Methodology)
+##  핵심 알고리즘 (Methodology)
 
 Safety Guard는 VAD 모델이 생성한 $N$개의 후보 경로 $\{T_0, T_1, ..., T_N\}$를 입력받아, 다음의 물리 모델을 기반으로 최적의 경로 $T^*$를 선택합니다.
 
@@ -24,14 +24,14 @@ $$
 \kappa = \frac{4 \cdot \text{Area}(P_1, P_2, P_3)}{|P_1 P_2| \cdot |P_2 P_3| \cdot |P_3 P_1|}
 $$
 
-현재 속도 $v$에서의 예상 횡방향 가속도가 임계값($a_{lat}^{max}$)을 초과하면 해당 경로는 **주행 불가(Infeasible)**로 판정합니다.
+현재 속도 $v$에서의 예상 횡방향 가속도가 임계값($a_{lat}^{max}$)을 초과하면 해당 경로는 주행 불가(Infeasible)로 판정합니다.
 
 $$
 a_{lat} = v^2 \cdot \kappa \quad \text{s.t.} \quad a_{lat} \le a_{lat}^{max}
 $$
 
 ### 2. 종방향 안전성 (Longitudinal Safety)
-시스템 지연($\tau$) 상황에서의 충돌을 방지하기 위해 **최소 필요 제동 거리($d_{req}$)**를 계산합니다. 이는 지연 시간 동안의 공주 거리(Free-running distance)와 물리적 제동 거리를 합산한 값입니다.
+시스템 지연($\tau$) 상황에서의 충돌을 방지하기 위해 최소 필요 제동 거리($d_{req}$)를 계산합니다. 이는 지연 시간 동안의 공주 거리(Free-running distance)와 물리적 제동 거리를 합산한 값입니다.
 
 $$
 d_{req} = \underbrace{v \cdot \tau}_{\text{Reaction Distance}} + \underbrace{\frac{v^2}{2 \cdot |a_{long}^{max}|}}_{\text{Braking Distance}}
@@ -54,7 +54,7 @@ $$
 
 ---
 
-## 📊 시스템 구조 (System Architecture)
+##  시스템 구조 (System Architecture)
 
 ```mermaid
 graph TD
