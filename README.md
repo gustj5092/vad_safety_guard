@@ -47,7 +47,7 @@ $$
 안전성 검증을 통과한 경로 집합($S_{feasible}$) 중에서, 직전 제어 단계의 경로 곡률($\kappa_{prev}$)과 차이가 가장 적은 경로를 최종 선택하여 조향 제어의 연속성을 보장합니다.
 
 $$
-T^* = \operatorname*{argmin}_{t \in S_{feasible}} | \bar{\kappa}(t) - \kappa_{prev} |
+T^* = \underset{t \in S_{feasible}}{\mathrm{argmin}} | \bar{\kappa}(t) - \kappa_{prev} |
 $$
 
 만약 $S_{feasible} = \emptyset$ (모든 후보 경로가 위험함)일 경우, 시스템은 즉시 **비상 정지(Emergency Stop)** 경로를 생성합니다.
@@ -58,11 +58,11 @@ $$
 
 ```mermaid
 graph TD
-    A[VAD 모델 출력<br>(후보 경로 리스트)] --> B{주행 가능성 검증<br>(횡방향 & 종방향)}
-    B -- 불가 (Infeasible) --> C[후보 탈락]
-    B -- 가능 (Feasible) --> D[주행 가능 집합에 추가]
-    D --> E{집합이 비었는가?}
-    E -- Yes (위험) --> F[비상 정지 생성<br>(최대 감속 제어)]
-    E -- No (안전) --> G[최적 경로 선정<br>(곡률 변화 최소화)]
-    F --> H[최종 제어 명령]
+    A["VAD 모델 출력<br>(후보 경로 리스트)"] --> B{"주행 가능성 검증<br>(횡방향 & 종방향)"}
+    B -- "불가 (Infeasible)" --> C["후보 탈락"]
+    B -- "가능 (Feasible)" --> D["주행 가능 집합에 추가"]
+    D --> E{"집합이 비었는가?"}
+    E -- "Yes (위험)" --> F["비상 정지 생성<br>(최대 감속 제어)"]
+    E -- "No (안전)" --> G["최적 경로 선정<br>(곡률 변화 최소화)"]
+    F --> H["최종 제어 명령"]
     G --> H
